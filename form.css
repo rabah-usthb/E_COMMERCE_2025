@@ -4,6 +4,7 @@
 /* COLOR VARIABLES */
 :root {
     --primary-color: #1699b0;
+    --error-color:#d60b0b;
     --link-color: #07a9f9;
     --secondary-color: #535354;
     --background-color: #EFEFEF;
@@ -33,7 +34,7 @@
  position: absolute;
  top:15%;
  right: -400px;
- background-color: red;
+ background-color: var(--error-color);
  height: 40px;
  width: 350px;
 }
@@ -66,7 +67,8 @@ body{
 }
 
 /* WRAPPER */
-.pannel{
+.login-pannel,
+.register-pannel{
     position: relative;
     width: 430px;
     height: 450px;
@@ -76,6 +78,10 @@ body{
     border: 1px solid transparent;
     box-shadow: 0 8px 15px var(--shadow-color);
     transition: var(--transition-3s);
+}
+
+.register-pannel{
+    height: 570px;
 }
 
 /* FORM HEADER */
@@ -112,10 +118,6 @@ body{
     transition: var(--transition-3s);
 }
 
-.title-register{
-    top: 50px;
-}
-
 /* FORMS */
 .login-form, .register-form{
     position: absolute;
@@ -124,9 +126,7 @@ body{
     width: 85%;
     transition: var(--transition-3s);
 }
-.register-form{
-    left: 150%;
-}
+
 
 /* INPUT FIELDS */
 .input-box{
@@ -152,7 +152,17 @@ body{
     border: 1px solid var(--primary-color);
 }
 
-#see_icon:hover{
+.input-field.error {
+    border-color: var(--error-color);
+  }
+
+  .input-field.error ~ .label,
+  .input-field.error:not(:placeholder-shown) ~ .label {
+    color: var(--error-color);
+  }
+
+#see_icon:hover,
+#see_icon_conf:hover{
  cursor: pointer;
 }
 

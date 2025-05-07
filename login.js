@@ -1,127 +1,66 @@
-const passwordError = document.getElementById('passError');
-const passwordLabel = passwordError.querySelector('label');
+import * as form from './form.js';
 
-console.log(passwordLabel);
+const passwordError = document.getElementById('passError');
+const passwordLabel = passwordError.querySelector('span');
 
 const nameEmailError = document.getElementById('nameEmailError');
-const nameEmailLabel = nameEmailError.querySelector('label');
+const nameEmailLabel = nameEmailError.querySelector('span');
 
 const passwordField   = document.getElementById('log-pass');
 const nameEmailField  = document.getElementById('log-email');
 
-const numberRegex      = /\d/;
-const lowerLetterRegex = /[a-z]/;
-const upperLetterRegex = /[A-Z]/;
-const specialRegex     = /[^\w\s]/;
-const atEmail          = /@/;
-const underRepeated    = /__/;
-const EmailRegex       = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const userNameRegex    = /^[a-zA-Z]+[\w\s]+$/;
+const passwordIcon = document.getElementById('see_icon');
 
-function togglePassword() {
-    const icon = document.getElementById('see_icon');
-    if (passwordField.type === 'password') {
-        passwordField.type = 'text';
-        icon.classList.replace('bx-show', 'bx-hide');
-    } else {
-        passwordField.type = 'password';
-        icon.classList.replace('bx-hide', 'bx-show');
-    }
-}
-
-function validateUserName(value) {
-    if (underRepeated.test(value)) {
-        return "Email/UserName can't contain '__'";
-    } else if (value.length < 4) {
-        return "UserName must be at least 4 characters";
-    } else if (value.length > 15) {
-        return "UserName must be at most 15 characters";
-    } else if (specialRegex.test(value)) {
-        return "UserName can't have special characters";
-    } else if (!userNameRegex.test(value)) {
-        return "UserName not properly written";
-    }
-    return null;
-}
-
-function validateEmail(value) {
-    value = value.replace(/\s/g, '');
-    if (underRepeated.test(value)) {
-        return "Email/UserName can't contain '__'";
-    } else if (!EmailRegex.test(value)) {
-        return "Email not properly written";
-    }
-    return null;
-}
-
-function validateEmailName() {
-    const text    = nameEmailField.value.trim();
-    if (text.length === 0) {
-        return "Email/UserName can't be empty";
-    } else if (atEmail.test(text)) {
-        return validateEmail(text);
-    } else {
-        return validateUserName(text);
-    }
-}
-
-function validatePassword() {
-    const text = passwordField.value;
-    value = text.replace(/\s/g, '');
-    
-    if (value.length === 0) {
-        return "Please fill the password field";
-    } else if (text.length < 8) {
-        return "At least 8 characters";
-    } else if (!lowerLetterRegex.test(text)) {
-        return "At least one lowercase letter";
-    } else if (!upperLetterRegex.test(text)) {
-        return "At least one uppercase letter";
-    } else if (!numberRegex.test(text)) {
-        return "At least one number";
-    } else if (!specialRegex.test(text)) {
-        return "At least one special character";
-    }
-    return null;
+function togglePasswordLogin() {
+    form.togglePassword(passwordField,passwordIcon);
 }
 
 
-function clearAll() {
+function validateEmailNameLogin() {
+    return form.validateEmailName(nameEmailField);
+}
+
+function validatePasswordLogin() {
+    return form.validatePassword(passwordField);
+}
+
+
+function clearAllLogin() {
     clearNameEmailError();
     clearPasswordError();
 }
 
-function visiblePasswordError() {
-    passwordError.style.visibility = 'visible'; 
+function visiblePasswordErrorLogin() {
+    form.visibleError(passwordError,passwordField);
 }
 
-function visibleNameEmailError() {
-    nameEmailError.style.visibility = 'visible'; 
+function visibleNameEmailErrorLogin() {
+    form.visibleError(nameEmailError,nameEmailField);
 }
 
-function clearPasswordError() {
-    passwordError.style.visibility = 'hidden'; 
+function clearPasswordErrorLogin() {
+    form.clearError(passwordError,passwordField);
 }
 
-function clearNameEmailError() {
-    nameEmailError.style.visibility = 'hidden'; 
+function clearNameEmailErrorLogin() {
+    form.clearError(nameEmailError,nameEmailField);
 }
 
 
-function blurPassword() {
-    error = validatePassword();
+function blurPasswordLogin() {
+    const error = validatePasswordLogin();
     if(error!=null) {
         passwordLabel.textContent = error;
-        visiblePasswordError();
+        visiblePasswordErrorLogin();
 
     }
 }
 
-function blurNameEmail() {
-    error = validateEmailName();
+function blurNameEmailLogin() {
+    const error = validateEmailNameLogin();
     if(error!=null) {
         nameEmailLabel.textContent = error;
-        visibleNameEmailError();
+        visibleNameEmailErrorLogin();
 
     }
 }
@@ -129,9 +68,10 @@ function blurNameEmail() {
 
 
 
-passwordField.addEventListener('blur', blurPassword);
-passwordField.addEventListener('focus',clearPasswordError);
+passwordField.addEventListener('blur', blurPasswordLogin);
+passwordField.addEventListener('focus',clearPasswordErrorLogin);
 
-nameEmailField.addEventListener('blur', blurNameEmail);
-nameEmailField.addEventListener('focus', clearNameEmailError);
+nameEmailField.addEventListener('blur', blurNameEmailLogin);
+nameEmailField.addEventListener('focus', clearNameEmailErrorLogin);
 
+passwordIcon.addEventListener('click',togglePasswordLogin);
