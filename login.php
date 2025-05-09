@@ -22,7 +22,8 @@
       </div>
 
       <!-- LOGIN FORM -->
-      <form  class="login-form" autocomplete="off">
+      <form  class="login-form" id="form" autocomplete="off">
+      <div class = "tooltip-error-bd" id='bdError'> <i class='bx bxs-message-error error'></i>  <span>Invalid Login Details. Please Check Credentials And Try Again</span></div>
         <div class="input-box">
           <input type="text" class="input-field"  placeholder=" " id="log-email"/>
           <label for="log-email" class="label">Email Or Username</label>

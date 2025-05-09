@@ -39,6 +39,23 @@
  width: 350px;
 }
 
+.tooltip-error-bd {
+    visibility: hidden;
+    font-size: 13px;
+    color: white;
+    padding-left: 5px;
+    padding-top: 7px;
+    justify-content: left;
+    display: flex;
+    z-index: 3;
+    position: absolute;
+    top:15%;
+    right: -400px;
+    background-color: var(--error-color);
+    height: 55px;
+    width: 350px;
+}
+
 /* GLOBAL STYLES */
 *{
     margin: 0;

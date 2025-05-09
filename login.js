@@ -6,10 +6,51 @@ const passwordLabel = passwordError.querySelector('span');
 const nameEmailError = document.getElementById('nameEmailError');
 const nameEmailLabel = nameEmailError.querySelector('span');
 
+const dbError = document.getElementById('bdError');
+const dbLabel = dbError.querySelector('span');
+
 const passwordField   = document.getElementById('log-pass');
 const nameEmailField  = document.getElementById('log-email');
 
 const passwordIcon = document.getElementById('see_icon');
+
+const formLogin = document.getElementById('form'); 
+
+function sendPost() {
+    
+    let nameEmail = nameEmailField.value;
+
+    if(form.atEmail.test(nameEmail)) {
+        nameEmail = nameEmail.replace(/\s/g, '');
+    }
+   
+    const password = passwordField.value;
+
+
+    fetch('loginCheck.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          action:   'check',   
+          nameEmail: nameEmail,
+          password: password
+        })
+      })
+      .then(res => res.json())  
+      .then(data => {            
+       updateError(data);
+     
+      });
+}
+
+function updateError(data) {
+    console.log(data)
+    if(data.error!==''){
+       dbLabel.textContent = data.error;
+       visibleDbErrorLogin();
+    }
+}
+
 
 function togglePasswordLogin() {
     form.togglePassword(passwordField,passwordIcon);
@@ -26,8 +67,17 @@ function validatePasswordLogin() {
 
 
 function clearAllLogin() {
-    clearNameEmailError();
-    clearPasswordError();
+    clearNameEmailErrorLogin();
+    clearPasswordErrorLogin();
+    clearDBErrorLogin();
+}
+
+function visibleDbErrorLogin() {
+    form.visibleErrors(dbError,nameEmailField,passwordField);
+}
+
+function clearDBErrorLogin() {
+    form.clearErrors(dbError,nameEmailField,passwordField);
 }
 
 function visiblePasswordErrorLogin() {
@@ -66,7 +116,16 @@ function blurNameEmailLogin() {
 }
 
 
+function submitLogin (event) {
+    event.preventDefault();
+    clearAllLogin();
+    const error = !(blurNameEmailLogin())  && !(blurPasswordLogin());
+    if(!error) {
+        return;
+    }
 
+    sendPost();
+}
 
 passwordField.addEventListener('blur', blurPasswordLogin);
 passwordField.addEventListener('focus',clearPasswordErrorLogin);
@@ -75,3 +134,5 @@ nameEmailField.addEventListener('blur', blurNameEmailLogin);
 nameEmailField.addEventListener('focus', clearNameEmailErrorLogin);
 
 passwordIcon.addEventListener('click',togglePasswordLogin);
+
+formLogin.addEventListener('submit',submitLogin);

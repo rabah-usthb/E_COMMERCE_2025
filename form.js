@@ -2,7 +2,7 @@ const numberRegex      = /\d/;
 const lowerLetterRegex = /[a-z]/;
 const upperLetterRegex = /[A-Z]/;
 const specialRegex     = /[^\w\s]/;
-const atEmail          = /@/;
+export const atEmail          = /@/;
 const underRepeated    = /__/;
 const EmailRegex       = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const userNameRegex    = /^[a-zA-Z]+[\w\s]+$/;
@@ -131,6 +131,17 @@ export function visibleError(errorTool_Tip,field) {
     field.classList.add('error');
 }
 
+export function visibleErrors(errorTool_Tip,field_1,field_2) {
+    errorTool_Tip.style.visibility = 'visible'; 
+    field_1.classList.add('error');
+    field_2.classList.add('error');
+}
+
+export function clearErrors(errorTool_Tip,field_1,field_2) {
+    errorTool_Tip.style.visibility = 'hidden'; 
+    field_1.classList.remove('error');
+    field_2.classList.remove('error');
+}
 
 export function clearError(errorTool_Tip,field) {
     errorTool_Tip.style.visibility = 'hidden'; 
