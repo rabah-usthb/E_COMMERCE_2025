@@ -1,0 +1,100 @@
+/* IMPORT FONT */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* COLOR VARIABLES */
+:root {
+    --primary-color: #1699b0;
+    --error-color:#d60b0b;
+    --link-color: #07a9f9;
+    --secondary-color: #535354;
+    --background-color: #EFEFEF;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --white-color: #FFF;
+    --black-color: #000;
+    --input-border-color: #E3E4E6;
+    --transition-3s: 0.3s;
+}
+
+.error {
+    padding-top: 2px;
+    color:red;
+    font-size: 35px;
+    margin-right: 3px;
+   }
+
+p{
+    font-size: 17px;
+}
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--background-color);
+}
+
+/* WRAPPER */
+.error-pannel{
+    position: relative;
+    width: 450px;
+    height: 230px;
+    background-color: var(--white-color);
+    border-radius: 10px;
+    padding: 85px 32px 64px;
+    border: 1px solid transparent;
+    box-shadow: 0 8px 15px var(--shadow-color);
+    transition: var(--transition-3s);
+}
+
+.register-pannel{
+    height: 570px;
+}
+
+/* FORM HEADER */
+.form-header{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 160px;
+    height: 80px;
+}
+
+.form-header::before, .form-header::after{
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 30px;
+    height: 30px;
+}
+
+span{
+    color: red;
+    white-space: pre;
+}
+
+.title{
+    display: flex;
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    white-space: nowrap;
+    transform: translate(-50%,-50%);
+    color: var(--primary-color);
+    font-size: 24px;
+    font-weight: bold;
+    transition: var(--transition-3s);
+}

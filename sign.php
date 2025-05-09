@@ -24,23 +24,23 @@
       </div>
 
       <!-- Register FORM -->
-      <form  class="register-form" autocomplete="off">
+      <form  class="register-form" id="form" autocomplete="off">
         <div class="input-box">
-          <input type="text" class="input-field"  placeholder=" " id="register-email"/>
+          <input type="text" class="input-field" name="email"  placeholder=" " id="register-email"/>
           <label for="register-email" class="label">Email</label>
           <i class="bx bx-envelope icon"></i>
           <div class = "tooltip-error" id='emailError'> <i class='bx bxs-message-error error'></i> <span>error</span> </div>
         </div>
 
         <div class="input-box">
-          <input type="text" class="input-field"  placeholder=" " id="register-name"/>
+          <input type="text" class="input-field" name="username"  placeholder=" " id="register-name"/>
           <label for="register-name" class="label">Username</label>
           <i class="bx bx-user icon"></i>
           <div class = "tooltip-error" id='nameError'> <i class='bx bxs-message-error error'></i>  <span>error</span> </div>
         </div>
           
         <div class="input-box">
-          <input type="text" class="input-field"  placeholder=" " id="register-pass"/>
+          <input type="text" class="input-field" name="password"  placeholder=" " id="register-pass"/>
           <label for="register-pass" class="label">Password</label>
           <i class="bx bx-show icon" id="see_icon"></i>
           <div class = "tooltip-error"  id='passError' > <i class='bx bxs-message-error error'></i> <span>error</span> </div>

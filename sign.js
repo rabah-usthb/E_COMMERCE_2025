@@ -20,6 +20,9 @@ const emailField  = document.getElementById('register-email');
 const passwordIcon = document.getElementById('see_icon');
 const ConfirmIcon = document.getElementById('see_icon_conf');
 
+const formSign = document.getElementById('form'); 
+
+
 function togglePasswordSign() {
     form.togglePassword(passwordField,passwordIcon);
 }
@@ -45,10 +48,49 @@ function validateConfirmSign() {
     return form.validateConfirmPassword(confirmField,passwordField);
 }
 
+function sendPost() {
+    
+    const email = emailField.value.replace(/\s/g, '');
+    const username = nameField.value;
+    const password = passwordField.value;
 
-function clearAllLogin() {
-    clearNameEmailError();
-    clearPasswordError();
+    console.log(email,' ',username,' ',password);
+
+    fetch('signCheck.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          action:   'check',   
+          username: username,
+          email:    email,
+          password: password
+        })
+      })
+      .then(res => res.json())  
+      .then(data => {            
+       updateError(data);
+     
+      });
+}
+
+
+function updateError(data) {
+    if(data.name_error!==''){
+       nameLabel.textContent = data.name_error;
+       visibleNameErrorSign();
+    }
+
+    if(data.email_error!==''){
+        emailLabel.textContent = data.email_error;
+        visibleEmailErrorSign();
+    }
+}
+
+function clearAllSign() {
+    clearConfirmErrorSign();
+    clearPasswordErrorSign();
+    clearNameErrorSign();
+    clearEmailErrorSign();
 }
 
 function visiblePasswordErrorSign() {
@@ -88,8 +130,9 @@ function blurPasswordSign() {
     if(error!=null) {
         passwordLabel.textContent = error;
         visiblePasswordErrorSign();
-
+        return true;
     }
+    return false;
 }
 
 function blurConfirmSign() {
@@ -97,8 +140,9 @@ function blurConfirmSign() {
     if(error!=null) {
         confirmLabel.textContent = error;
         visibleConfirmErrorSign();
-
+        return true;
     }
+    return false;
 }
 
 function blurEmailSign() {
@@ -106,8 +150,9 @@ function blurEmailSign() {
     if(error!=null) {
         emailLabel.textContent = error;
         visibleEmailErrorSign();
-
+        return true;
     }
+    return false;
 }
 
 function blurNameSign() {
@@ -115,10 +160,22 @@ function blurNameSign() {
     if(error!=null) {
         nameLabel.textContent = error;
         visibleNameErrorSign();
-
+        return true;
     }
+
+    return false;
 }
 
+function submitSign (event) {
+    event.preventDefault();
+    clearAllSign();
+    const error = !(blurNameSign()) && !(blurEmailSign()) && !(blurConfirmSign()) && !(blurPasswordSign());
+    if(!error) {
+        return;
+    }
+
+    sendPost();
+}
 
 passwordField.addEventListener('blur', blurPasswordSign);
 passwordField.addEventListener('focus',clearPasswordErrorSign);
@@ -135,3 +192,4 @@ emailField.addEventListener('focus', clearEmailErrorSign);
 passwordIcon.addEventListener('click',togglePasswordSign);
 ConfirmIcon.addEventListener('click',toggleConfirmSign);
 
+formSign.addEventListener('submit',submitSign);

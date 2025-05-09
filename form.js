@@ -108,8 +108,6 @@ export function validateConfirmPassword(confirmPasswordField,passwordField) {
 export function validatePassword(passwordField) {
     const text = passwordField.value;
 
-    console.log("password ", {passwordField});
-
     const value = text.replace(/\s/g, '');
 
     if (value.length === 0) {
