@@ -84,6 +84,47 @@ function updateError(data) {
         emailLabel.textContent = data.email_error;
         visibleEmailErrorSign();
     }
+
+    if(data.name_error==='' && data.email_error==='' ) {
+        sendPostToken(data);
+    }
+}
+
+function sendPostToken(data) {
+
+    fetch('sendToken.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          action:   data.action,   
+          email:    data.email,
+          type: data.type
+        })
+      })
+      .then(res => res.json())  
+      .then(data => {            
+       loadTokenView(data);
+     
+      });
+}
+
+function loadTokenView(data) {
+
+    const f = document.createElement('form');
+    f.method = 'POST';
+    f.action = 'viewToken.php';
+  
+    for (const [name, value] of Object.entries(data)) {
+      const inp = document.createElement('input');
+      inp.type  = 'hidden';
+      inp.name  = name;
+      inp.value = value;
+      f.appendChild(inp);
+    }
+  
+ 
+    document.body.appendChild(f);
+    f.submit();
 }
 
 function clearAllSign() {

@@ -11,7 +11,7 @@ CREATE TABLE users (
 CREATE TABLE token (
  id INT AUTO_INCREMENT,
  created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
- destroy_time DATETIME NOT NULL,
+ destroy_time DATETIME DEFAULT (CURRENT_TIMESTAMP + INTERVAL 15 MINUTE),
  user_id int NOT NULL,
  token_value VARCHAR(64) NOT NULL,
  token_type ENUM ('verify' , 'password' , 'delete' , 'email') DEFAULT 'verify',

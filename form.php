@@ -2,6 +2,27 @@
 require_once 'db.php';
 
 
+function insertToken($token,$id,$type) {
+    global $pdo;   
+    $stmt = $pdo->prepare("INSERT INTO token (user_id, token_value, token_type) VALUES (?, ?, ?)");
+    $stmt->execute([$id,$token,$type]);
+}
+
+
+function getIdFromEmail($email) {
+    global $pdo;   
+    $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if($row === false) {
+        return "";
+    }
+    else {
+        return $row['id'];
+    }
+}
+
 function isLoginRightEmail($email , $password){
     global $pdo;   
     $stmt = $pdo->prepare("SELECT user_status FROM users WHERE email = ? and  userpassword = ?");

@@ -1,6 +1,6 @@
 <?php
 require_once 'db.php';
-require 'form.php';
+require_once 'form.php';
 
 $username = $_POST['username'];
 $email    = $_POST['email'];
@@ -16,7 +16,10 @@ function check ($username,$email,$password) {
     
     $response = [
         'name_error' => '',
-        'email_error'  => ''
+        'email_error'  => '',
+        'email' => $email,
+        'action' => 'sendToken',
+        'type' => 'verify'
     ];
     
     $quit = false;
@@ -37,9 +40,11 @@ function check ($username,$email,$password) {
     if($quit) {  echo json_encode($response); exit;}
     else {
         insertUser($username,$email,hash('sha256', $password));
+        echo json_encode($response);
+        exit;
     }
 
-    echo json_encode($response);
+  
     
 }
 
