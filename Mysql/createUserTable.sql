@@ -18,3 +18,8 @@ CREATE TABLE token (
  CONSTRAINT token_user_fk FOREIGN KEY (user_id) REFERENCES users(id) on delete CASCADE,
  CONSTRAINT token_pk PRIMARY KEY (id) 
 );
+
+
+CREATE EVENT kill_expired_tokens
+  ON SCHEDULE EVERY 15 MINUTE DO
+  DELETE FROM token WHERE destroy_time <= NOW();

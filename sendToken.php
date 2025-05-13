@@ -35,7 +35,7 @@ function send($email,$type) {
       'icon'  => 'bx bxs-message-error error'
   ];
   
-    $baseUrl = 'http://localhost/E-COMMERCE/sign.php/verifyToken.php';
+    $baseUrl = 'http://localhost/E-COMMERCE/verifyToken.php';
     $link    = $baseUrl . '?token=' . urlencode($token);
 
     $subject = match($type) {

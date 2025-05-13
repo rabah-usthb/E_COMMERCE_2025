@@ -1,6 +1,49 @@
 <?php
 require_once 'db.php';
 
+function verifyUser($id) {
+    global $pdo;   
+    $stmt = $pdo->prepare("update from token set user_status = ? where id = ?");
+    $stmt->execute(['user',$id]);
+}
+
+function tokenExists($token) {
+    $stmt = $pdo->prepare("Select user_id from token where token_value = ?");
+    $stmt->execute([$token]);
+    $row= $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if($row === false){
+        return false;
+    }
+    else {
+        return true;
+    }
+
+} 
+
+function killToken($token) {
+    global $pdo;   
+    $stmt = $pdo->prepare("delete from token where token_value = ?");
+    $stmt->execute([$token]);
+}
+
+function getIDUser_Token($token) {
+    global $pdo;   
+    $stmt = $pdo->prepare("Select user_id from token where token_value = ? and destroy_time > now()");
+    $stmt->execute([$token]);
+    $row= $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if(tokenExists($token)) {
+        killToken($token);
+    }
+
+    if($row === false) {
+        return "";
+    }
+    else {
+        return $row['user_id'];
+    }
+}
 
 function insertToken($token,$id,$type) {
     global $pdo;   
