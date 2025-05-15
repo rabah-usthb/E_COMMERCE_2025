@@ -167,6 +167,7 @@ function clearEmailErrorSign() {
 
 
 function blurPasswordSign() {
+
     const error = validatePasswordSign();
     if(error!=null) {
         passwordLabel.textContent = error;
@@ -210,7 +211,14 @@ function blurNameSign() {
 function submitSign (event) {
     event.preventDefault();
     clearAllSign();
-    const error = !(blurNameSign()) && !(blurEmailSign()) && !(blurConfirmSign()) && !(blurPasswordSign());
+
+    const emailError =blurEmailSign();
+    const nameError = blurNameSign();
+    const confError =  blurConfirmSign();
+    const passError = blurPasswordSign();
+
+
+    const error = !(emailError) && !(nameError) && !(confError) && !(passError);
     if(!error) {
         return;
     }

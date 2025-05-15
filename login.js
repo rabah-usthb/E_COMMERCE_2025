@@ -98,28 +98,42 @@ function clearNameEmailErrorLogin() {
 
 
 function blurPasswordLogin() {
+
     const error = validatePasswordLogin();
+
     if(error!=null) {
         passwordLabel.textContent = error;
         visiblePasswordErrorLogin();
+        return true;
 
     }
+
+    return false;
 }
 
 function blurNameEmailLogin() {
     const error = validateEmailNameLogin();
+
     if(error!=null) {
         nameEmailLabel.textContent = error;
         visibleNameEmailErrorLogin();
+        return true;
 
     }
+    return false;
 }
 
 
 function submitLogin (event) {
     event.preventDefault();
     clearAllLogin();
-    const error = !(blurNameEmailLogin())  && !(blurPasswordLogin());
+
+    const emailNameError = blurNameEmailLogin();
+    const passError = blurPasswordLogin();
+
+    const error = !(emailNameError)  && !(passError);
+
+
     if(!error) {
         return;
     }

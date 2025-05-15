@@ -86,7 +86,8 @@ body{
 /* WRAPPER */
 .login-pannel,
 .register-pannel,
-.forgot-pannel{
+.forgot-pannel,
+.change-pannel{
     position: relative;
     width: 430px;
     height: 450px;
@@ -102,8 +103,16 @@ body{
     height: 570px;
 }
 
+.change-pannel{
+    height: 410px;
+}
+
+.btn-submit .key-icon {
+    font-size: 25px;
+}
+
 .forgot-pannel {
-    height: 530px;
+    height: 360px;
 }
 
 /* FORM HEADER */
@@ -141,7 +150,7 @@ body{
 }
 
 /* FORMS */
-.login-form, .register-form,.forgot-form{
+.login-form, .register-form,.forgot-form,.register-form{
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
