@@ -12,12 +12,20 @@ const dbLabel = dbError.querySelector('span');
 const passwordField   = document.getElementById('log-pass');
 const nameEmailField  = document.getElementById('log-email');
 
+const loginButton   = document.getElementById('LogInBtn');
+const loginIcon  = document.getElementById('loginIcon');
+
 const passwordIcon = document.getElementById('see_icon');
 
 const formLogin = document.getElementById('form'); 
 
+
+
+
+
 function sendPost() {
-    
+
+    form.setSubmitting(loginButton,loginIcon,true);
     let nameEmail = nameEmailField.value;
 
     if(form.atEmail.test(nameEmail)) {
@@ -37,9 +45,9 @@ function sendPost() {
         })
       })
       .then(res => res.json())  
-      .then(data => {            
+      .then(data => {   
+       form.setSubmitting(loginButton,loginIcon,false);         
        updateError(data);
-     
       });
 }
 

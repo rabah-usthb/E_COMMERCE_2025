@@ -1,5 +1,16 @@
 <?php
+ 
+session_start();
+
 require_once 'db.php';
+
+
+function changePassword($id,$password) {
+    global $pdo;   
+    $stmt = $pdo->prepare("update users set userpassword= ? where id = ?");
+    $stmt->execute([hash('sha256', $password),$id]);
+    $stmt->execute(['user',$id]);
+}
 
 function verifyUser($id) {
     global $pdo;   
@@ -8,6 +19,7 @@ function verifyUser($id) {
 }
 
 function tokenExists($token) {
+    global $pdo;   
     $stmt = $pdo->prepare("Select user_id from token where token_value = ?");
     $stmt->execute([$token]);
     $row= $stmt->fetch(PDO::FETCH_ASSOC);
@@ -51,6 +63,19 @@ function insertToken($token,$id,$type) {
     $stmt->execute([$id,$token,$type]);
 }
 
+function getStatusFromEmail($email) {
+    global $pdo;   
+    $stmt = $pdo->prepare("SELECT user_status FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if($row === false) {
+        return "";
+    }
+    else {
+        return $row['user_status'];
+    }
+}
 
 function getIdFromEmail($email) {
     global $pdo;   

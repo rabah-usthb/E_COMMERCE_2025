@@ -14,7 +14,7 @@ CREATE TABLE token (
  destroy_time DATETIME DEFAULT (CURRENT_TIMESTAMP + INTERVAL 15 MINUTE),
  user_id int NOT NULL,
  token_value VARCHAR(64) NOT NULL,
- token_type ENUM ('verify' , 'password' , 'delete' , 'email') DEFAULT 'verify',
+ token_type ENUM ('verify' , 'password') DEFAULT 'verify',
  CONSTRAINT token_user_fk FOREIGN KEY (user_id) REFERENCES users(id) on delete CASCADE,
  CONSTRAINT token_pk PRIMARY KEY (id) 
 );

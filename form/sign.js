@@ -17,6 +17,9 @@ const confirmField   = document.getElementById('register-conf');
 const nameField  = document.getElementById('register-name');
 const emailField  = document.getElementById('register-email');
 
+const signButton   = document.getElementById('SignInBtn');
+const signIcon  = document.getElementById('signIcon');
+
 const passwordIcon = document.getElementById('see_icon');
 const ConfirmIcon = document.getElementById('see_icon_conf');
 
@@ -49,7 +52,8 @@ function validateConfirmSign() {
 }
 
 function sendPost() {
-    
+
+    form.setSubmitting(signButton,signIcon,true);
     const email = emailField.value.replace(/\s/g, '');
     const username = nameField.value;
     const password = passwordField.value;
@@ -67,7 +71,8 @@ function sendPost() {
         })
       })
       .then(res => res.json())  
-      .then(data => {            
+      .then(data => { 
+        form.setSubmitting(signButton,signIcon,false);           
        updateError(data);
      
       });

@@ -40,15 +40,15 @@
           
 
         <div class="input-box">
-          <button class="btn-submit" id="LogInBtn">
-            Change Password <i class="bx bx-key key-icon"></i>
+          <button class="btn-submit" id="ChangeBtn">
+            Change Password <i class="bx bx-key key-icon" id= "changeIcon"></i>
           </button>
         </div>
 
         <div class="switch-form">
           <span>
             Token Expired ?
-            <a href="sign.php">Send Another Email</a>
+            <a href="forgot.php">Send Another Email</a>
           </span>
         </div>
       </form>

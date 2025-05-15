@@ -1,3 +1,8 @@
+<?php 
+session_start();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -11,40 +16,35 @@
     <link rel="stylesheet" href="form.css" />
     
     <script type="module" src="form.js" defer></script>
-    <script type="module" src="login.js" defer></script>
+    <script type="module" src="forgot.js" defer></script>
 
-    <title>Login Page</title>
+    <title>Forgot Page</title>
   </head>
   <body>
-    <div class="login-pannel">
+    <div class="forgot-pannel">
       <div class="form-header">
-        <div class="title-login">Login Form</div>
+        <div class="title-login">Forgot Password?</div>
       </div>
 
       <!-- LOGIN FORM -->
-      <form  class="login-form" id="form" autocomplete="off">
+      <form  class="forgot-form" id="form" autocomplete="off">
       <div class = "tooltip-error-bd" id='bdError'> <i class='bx bxs-message-error error'></i>  <span>Invalid Login Details. Please Check Credentials And Try Again</span></div>
         <div class="input-box">
           <input type="text" class="input-field"  placeholder=" " id="log-email"/>
-          <label for="log-email" class="label">Email Or Username</label>
+          <label for="log-email" class="label">Email</label>
           <i class="bx bx-envelope icon"></i>
-          <div class = "tooltip-error" id='nameEmailError'> <i class='bx bxs-message-error error'></i>  <span>error</span></div>
+          <div class = "tooltip-error" id='emailError'> <i class='bx bxs-message-error error'></i>  <span>error</span></div>
         </div>
           
-        <div class="input-box">
-          <input type="text" class="input-field"  placeholder=" " id="log-pass"/>
-          <label for="log-pass" class="label">Password</label>
-          <i class="bx bx-show icon" id="see_icon"></i>
-          <div class = "tooltip-error"  id='passError' > <i class='bx bxs-message-error error'></i>  <span>error</span></div>
-        </div>
+
 
         <div class="form-cols">
-            <a href="forgot.php">Forgot password?</a>
+            <a href="login.php">Remember password?</a>
         </div>
 
         <div class="input-box">
-          <button class="btn-submit" id="LogInBtn">
-            Login <i class="bx bx-log-in"></i>
+          <button class="btn-submit" id="ForgotBtn">
+            Send Email <i class="bx bx-mail-send" id = "sendIcon"></i>
           </button>
         </div>
 

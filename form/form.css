@@ -21,6 +21,18 @@
     margin-right: 2px;
    }
 
+   .title{
+    display: flex;
+    position: absolute;
+    top: 19.5%;
+    left: 50%;
+    white-space: nowrap;
+    transform: translate(-50%,-50%);
+    color: var(--primary-color);
+    font-size: 24px;
+    font-weight: bold;
+    transition: var(--transition-3s);
+}
 
 .tooltip-error {
  visibility: hidden;
@@ -87,7 +99,9 @@ body{
 .login-pannel,
 .register-pannel,
 .forgot-pannel,
-.change-pannel{
+.change-pannel,
+.send-pannel,
+.pass-pannel{
     position: relative;
     width: 430px;
     height: 450px;
@@ -97,6 +111,11 @@ body{
     border: 1px solid transparent;
     box-shadow: 0 8px 15px var(--shadow-color);
     transition: var(--transition-3s);
+}
+
+.pass-pannel {
+    height: 220px;
+    width: 460px;
 }
 
 .register-pannel{
@@ -113,6 +132,10 @@ body{
 
 .forgot-pannel {
     height: 360px;
+}
+
+.send-pannel {
+    height: 320px;
 }
 
 /* FORM HEADER */

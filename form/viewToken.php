@@ -1,4 +1,6 @@
 <?php 
+session_start();
+
 global $response;
 $response = $_POST['message'];
 global $icon;

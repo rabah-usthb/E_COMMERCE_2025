@@ -15,28 +15,26 @@ const confirmField   = document.getElementById('register-conf');
 const passwordIcon = document.getElementById('see_icon');
 const ConfirmIcon = document.getElementById('see_icon_conf');
 
+const changeButton   = document.getElementById('ChangeBtn');
+const changeIcon  = document.getElementById('changeIcon');
+
 const formChange = document.getElementById('form'); 
 
 function sendPost() {
     
-    let email = emailField.value;
-
-    if(form.atEmail.test(email)) {
-        email = email.replace(/\s/g, '');
-    }
-   
-
-    fetch('ChangeCheck.php', {
+    const password = passwordField.value;
+    form.setSubmitting(changeButton,changeIcon,true);
+    fetch('change.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
-          action:   'check',   
-          nameEmail: nameEmail,
+          action:   'modify', 
           password: password
         })
       })
       .then(res => res.json())  
-      .then(data => {            
+      .then(data => {  
+       form.setSubmitting(changeButton,changeIcon,false);          
        updateError(data);
      
       });
@@ -51,12 +49,18 @@ function toggleConfirmChange() {
     form.togglePassword(confirmField,ConfirmIcon);
 }
 
+function loadView() {
+    window.location.href = 'pass.php';
+}
 
 function updateError(data) {
     console.log(data)
     if(data.error!==''){
        dbLabel.textContent = data.error;
        visibleDbErrorChange();
+    }
+    else {
+     loadView();
     }
 }
 
@@ -78,11 +82,11 @@ function clearAllChange() {
 }
 
 function visibleDbErrorChange() {
-    form.visibleErrors(dbError,emailField,passwordField);
+    form.visibleError(dbError,passwordField);
 }
 
 function clearDBErrorChange() {
-    form.clearErrors(dbError,emailField,passwordField);
+    form.clearError(dbError,passwordField);
 }
 
 
@@ -128,9 +132,10 @@ function submitChange (event) {
     event.preventDefault();
     clearAllChange();
 
-    const emailNameError = blurEmailChange();
+    const passError = blurPasswordChange();
+    const confError = blurConfirmChange();
 
-    const error = !(emailNameError);
+    const error = ! (passError) && !(confError);
 
 
     if(!error) {

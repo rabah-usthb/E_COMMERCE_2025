@@ -7,6 +7,19 @@ const underRepeated    = /__/;
 const EmailRegex       = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const userNameRegex    = /^[a-zA-Z]+[\w\s]+$/;
 
+
+export function setSubmitting(btn,icon,isLoading) {
+    if (isLoading) {
+      btn.disabled = true;
+      icon.className = 'bx bx-loader bx-spin';
+    } else {
+      icon.className = 'bx bx-log-in';
+      btn.disabled = false;
+    }
+  }
+  
+
+
 export function togglePassword(passwordField,icon) {
     if (passwordField.type === 'password') {
         passwordField.type = 'text';

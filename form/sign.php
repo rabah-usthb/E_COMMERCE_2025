@@ -1,3 +1,8 @@
+<?php 
+session_start();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -55,7 +60,7 @@
 
         <div class="input-box">
           <button class="btn-submit" id="SignInBtn">
-            Sign Up <i class="bx bx-log-in"></i>
+            Sign Up <i class="bx bx-log-in" id="signIcon"></i>
           </button>
         </div>
 

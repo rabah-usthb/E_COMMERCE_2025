@@ -9,8 +9,13 @@ const dbLabel = dbError.querySelector('span');
 const emailField  = document.getElementById('log-email');
 const formForgot = document.getElementById('form'); 
 
+const forgotButton   = document.getElementById('ForgotBtn');
+const forgotIcon  = document.getElementById('sendIcon');
+
+
 function sendPost() {
     
+    form.setSubmitting(forgotButton,forgotIcon,true);
     let email = emailField.value;
 
     if(form.atEmail.test(email)) {
@@ -18,13 +23,12 @@ function sendPost() {
     }
    
 
-    fetch('ForgotCheck.php', {
+    fetch('forgotCheck.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
           action:   'check',   
-          nameEmail: nameEmail,
-          password: password
+          email: email
         })
       })
       .then(res => res.json())  
@@ -36,14 +40,59 @@ function sendPost() {
 
 function updateError(data) {
     console.log(data)
-    if(data.error!==''){
-       dbLabel.textContent = data.error;
+    if(data.email_error!==''){
+       dbLabel.textContent = data.email_error;
        visibleDbErrorForgot();
+       form.setSubmitting(forgotButton,forgotIcon,false);
+    }
+
+    else {
+        sendPostToken(data);
     }
 }
 
+
+
+function sendPostToken(data) {
+
+    fetch('sendToken.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          action:   data.action,   
+          email:    data.email,
+          type: data.type
+        })
+      })
+      .then(res => res.json())  
+      .then(data => {      
+        form.setSubmitting(forgotButton,forgotIcon,false);      
+       loadTokenView(data);
+     
+      });
+}
+
+function loadTokenView(data) {
+
+    const f = document.createElement('form');
+    f.method = 'POST';
+    f.action = 'viewToken.php';
+  
+    for (const [name, value] of Object.entries(data)) {
+      const inp = document.createElement('input');
+      inp.type  = 'hidden';
+      inp.name  = name;
+      inp.value = value;
+      f.appendChild(inp);
+    }
+  
+ 
+    document.body.appendChild(f);
+    f.submit();
+}
+
 function validateEmailForgot() {
-    return form.validateEmailName(emailField);
+    return form.validateEmailAlone(emailField);
 }
 
 
@@ -53,11 +102,11 @@ function clearAllForgot() {
 }
 
 function visibleDbErrorForgot() {
-    form.visibleErrors(dbError,emailField,passwordField);
+    form.visibleError(dbError,emailField);
 }
 
 function clearDBErrorForgot() {
-    form.clearErrors(dbError,emailField,passwordField);
+    form.clearError(dbError,emailField);
 }
 
 
