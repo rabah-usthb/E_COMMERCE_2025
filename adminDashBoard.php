@@ -1,3 +1,13 @@
+<?php
+// adminDashBoard.php
+// Determine which section to display (default to dashboard)
+$page = $_GET['page'] ?? 'dashboard';
+$allowed = ['dashboard', 'adminList', 'appendClient','client','categories','products','orders'];
+if (!in_array($page, $allowed, true)) {
+    $page = 'dashboard';
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,36 +21,36 @@
 	
 	<!-- SIDEBAR -->
 	<section id="sidebar">
-		<a href="#" class="brand"><i class='bx bxs-smile icon'></i> AdminSite</a>
+		<div class="title-brand"><i class='bx bxs-store big-icon'></i><span>AdminHub<span></div> 
 		<ul class="side-menu">
 			<li><a href="#" class="active"><i class='bx bxs-dashboard icon' ></i> Dashboard</a></li>
 			<li class="divider" data-text="main">Main</li>
 			<li>
 				<a href="#"><i class='bx bxs-package icon'></i> Products <i class='bx bx-chevron-right icon-right' ></i></a>
 				<ul class="side-dropdown">
-					<li><a href="#"> <i class='bx bx-list-ul'></i> Product List</a></li>
-					<li><a href="#"> <i class='bx bxs-plus-circle'></i> Add New Product</a></li>
-					<li><a href="#"> <i class='bx bxs-category'></i> Categories</a></li>
+					<li><a href="?page=products" class="<?= $page==='products'?'active':'' ?>"><i class='bx bx-list-ul bullet'></i> Product List</a></li>
+					<li><a href="?page=categories" class="<?= $page==='categories'?'active':'' ?>"> <i class='bx bxs-category bullet'></i> Categories</a></li>
 				</ul>
 			</li>
 			<li><a href="#"><i class='bx bxs-chart icon' ></i> Charts</a></li>
 			<li>
 				<a href="#"><i class='bx bxs-user icon'></i> Clients <i class='bx bx-chevron-right icon-right' ></i></a>
 				<ul class="side-dropdown">
-					<li><a href="#"> <i class='bx bxs-user-check'></i> Verified</a></li>
-					<li><a href="#"><i class='bx bxs-user-x'></i> Appending</a></li>
+					<li><a href="?page=client" class="<?= $page==='client'?'active':'' ?>"> <i class='bx bxs-user-check bullet'></i> Verified</a></li>
+					<a href="?page=appendClient" class="<?= $page==='appendClient'?'active':'' ?>"><i class='bx bxs-user-x bullet' ></i> Appending</a></li>
 				</ul>
 			</li>
 
             <li> <a href="#"> <i class='bx bxs-cart-download icon'></i> Orders <i class='bx bx-chevron-right icon-right' ></i></a> 
                 <ul class="side-dropdown">
-					<li><a href="#"> <i class='bx bx-list-ul'></i> All Orders</a></li>
-					<li><a href="#">  <i class='bx bxs-hourglass'></i> Awaiting</a></li>
-					<li><a href="#"> <i class='bx bxs-x-square'></i> Cancelled</a></li>
+					<li><a href="?page=orders" class="<?= $page==='orders'?'active':'' ?>">  <i class='bx bx-list-ul bullet'></i> All Orders</a></li>
+                    <li><a href="#"> <i class='bx bxs-paper-plane bullet'></i> Shipped</a></li>
+					<li><a href="#">  <i class='bx bxs-hourglass bullet'></i> Awaiting</a></li>
+					<li><a href="#"> <i class='bx bxs-x-square bullet'></i> Cancelled</a></li>
 				</ul>
             </li>
            
-            <li> <a href="#"> <i class='bx bx-shield-quarter icon'></i> Admins </a> </li>
+            <li> <a href="?page=adminList" class="<?= $page==='adminList'?'active':'' ?>"> <i class='bx bx-shield-quarter icon'></i> Admins </a> </li>
 
 			<li class="divider" data-text="Account">Account</li>
 			<li><a href="#"> <i class='bx bxs-log-out-circle icon'></i> Log Out</a></li>
@@ -82,7 +92,37 @@
 		<!-- NAVBAR -->
 
 		<!-- MAIN -->
-		<main>
+		<main  id="main-content">
+
+        <?php
+            switch ($page) {
+                case 'adminList':
+                    include 'adminList.php';
+                    break;
+
+                case 'appendClient':
+                    include 'appendClient.php';
+                    break;
+
+                case 'client' :
+                    include 'client.php';
+                    break;
+                
+                case 'categories' :
+                    include 'categories.php';
+                    break;
+
+                case 'products' :
+                    include 'productList.php';
+                    break;
+                
+                case 'orders' :
+                    include 'orders.php';
+                    break;
+
+                default:
+                    // Default Dashboard content
+            ?>
 			<h1 class="title">Dashboard</h1>
 			<ul class="breadcrumbs">
 				<li><a href="#">Home</a></li>
@@ -154,11 +194,14 @@
 				</div>
 
 		</main>
+        <?php
+            }
+            ?>
 		<!-- MAIN -->
 	</section>
 	<!-- NAVBAR -->
 
 	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-	<script src="admin.js"></script>
+    <script src="admin.js"></script>
 </body>
 </html>

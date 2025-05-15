@@ -37,10 +37,29 @@ li {
 	list-style: none;
 }
 
+.title-brand span {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.title-brand {
+    margin-top: 20px;
+    display: flex;
+	justify-content: center;
+	align-items: center;
+    color: var(--blue);
+}
+
+.big-icon {
+    margin-right: 3px;
+    font-size: 24px;
+}
 
 
-
-
+.bullet {
+    font-size: 16px;
+    margin-right: 4px;
+}
 
 
 /* SIDEBAR */
