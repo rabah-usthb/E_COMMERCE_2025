@@ -1,5 +1,7 @@
 <?php 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 ?>
 
 
@@ -17,7 +19,7 @@ session_start();
     <link rel="stylesheet" href="form.css" />
     
     <script type="module" src="form.js" defer></script>
-    <script type="module" src="login.js" defer></script>
+    <script type="module" src="send.js" defer></script>
 
     <title>Resend Email Page</title>
   </head>
@@ -40,7 +42,7 @@ session_start();
 
         <div class="input-box">
           <button class="btn-submit" id="sendBtn">
-           Send Email <i class="bx bx-mail-send"></i>
+           Send Email <i class="bx bx-mail-send" id ="sendIcon"></i>
           </button>
         </div>
 

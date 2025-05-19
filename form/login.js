@@ -57,8 +57,19 @@ function updateError(data) {
        dbLabel.textContent = data.error;
        visibleDbErrorLogin();
     }
+    else {
+        loadMainPage(data.status);
+    }
 }
 
+function loadMainPage(status) {
+        if(status === 'user') {
+        window.location.href = '../MainPage/mainPage.php';
+        }
+        else{
+         window.location.href = '../admin/adminDashBoard.php';
+        }
+}
 
 function togglePasswordLogin() {
     form.togglePassword(passwordField,passwordIcon);

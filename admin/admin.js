@@ -1,36 +1,3 @@
-
-document.addEventListener('DOMContentLoaded', () => {
-    const container = document.getElementById('main-content');
-    const links     = document.querySelectorAll('a.spa-link[data-url]');
-  
-    function loadFragment(link) {
-      // 1. Update active class
-      document.querySelector('a.spa-link.active')?.classList.remove('active');
-      link.classList.add('active');
-  
-      // 2. Fetch and inject
-      fetch(link.dataset.url)
-        .then(res => {
-          if (!res.ok) throw new Error(res.statusText);
-          return res.text();
-        })
-        .then(html => container.innerHTML = html)
-        .catch(err => {
-          console.error('SPA load error:', err);
-          container.innerHTML = `<p class="error">Failed to load content.</p>`;
-        });
-    }
-  
-    // Bind click on each link
-    links.forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        loadFragment(link);
-      });
-    });
-  });
-
-
 // SIDEBAR DROPDOWN
 const allDropdown = document.querySelectorAll('#sidebar .side-dropdown');
 const sidebar = document.getElementById('sidebar');

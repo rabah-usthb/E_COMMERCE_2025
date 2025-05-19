@@ -21,7 +21,7 @@ function check ($email) {
         'email_error'  => '',
         'email' => $email,
         'action' => 'sendToken',
-        'type' => 'password'
+        'type' => 'verify'
     ];
     
 
@@ -32,16 +32,11 @@ function check ($email) {
         echo json_encode($response); 
         exit;
     }
-    else if(getStatusFromEmail($email)==='appending') {
-        $response['email_error'] = 'Email Not Verified , Please Verify Before Changing Password';
-        echo json_encode($response); 
-        exit;
-    }
-
     
+    else{
         echo json_encode($response);
         exit;
-    
+    }
 
   
     

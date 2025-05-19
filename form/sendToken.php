@@ -1,7 +1,8 @@
 <?php
 
-session_start();
-
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 require __DIR__ . '/vendor/autoload.php';
 require_once 'db.php';
 require_once 'form.php';
@@ -94,12 +95,13 @@ try {
     $mail->send();
     $response['message'] = "Successfully sent {$type} email to {$email}. Please check your inbox.";
     $response['icon']   = "bx bxs-message-check not-error";
-    insertToken($token,$id,$type);
 } catch (Exception $e) {
-    error_log("Mail sending failed: " . $mail->ErrorInfo);
-    $response['message'] = "Failed to send {$type} email to {$email}. Error: " . $mail->ErrorInfo;
+    $response['message'] = "Failed to send {$type} email to {$email}. Error: " ;
     $response['icon']     = "bx bxs-message-error error";
 }
+    if($response['message'] === ''){
+    insertToken($token,$id,$type);
+    }
     echo json_encode($response);
     exit;
 

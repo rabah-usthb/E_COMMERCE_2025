@@ -1,6 +1,4 @@
 <?php
- 
-session_start();
 
 require_once 'db.php';
 
@@ -9,12 +7,11 @@ function changePassword($id,$password) {
     global $pdo;   
     $stmt = $pdo->prepare("update users set userpassword= ? where id = ?");
     $stmt->execute([hash('sha256', $password),$id]);
-    $stmt->execute(['user',$id]);
 }
 
 function verifyUser($id) {
     global $pdo;   
-    $stmt = $pdo->prepare("update from token set user_status = ? where id = ?");
+    $stmt = $pdo->prepare("update token set user_status = ? where id = ?");
     $stmt->execute(['user',$id]);
 }
 
@@ -77,6 +74,7 @@ function getStatusFromEmail($email) {
     }
 }
 
+
 function getIdFromEmail($email) {
     global $pdo;   
     $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
@@ -90,6 +88,21 @@ function getIdFromEmail($email) {
         return $row['id'];
     }
 }
+
+function getIdFromName($name) {
+    global $pdo;   
+    $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ?");
+    $stmt->execute([$name]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if($row === false) {
+        return "";
+    }
+    else {
+        return $row['id'];
+    }
+}
+
 
 function isLoginRightEmail($email , $password){
     global $pdo;   

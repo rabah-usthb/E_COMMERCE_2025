@@ -1,7 +1,9 @@
 <?php
 
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 
 require_once 'db.php';
@@ -18,9 +20,11 @@ if (isset($_POST['action']) && $_POST['action'] === 'check') {
 
 function check ($nameEmail,$password) {
     
+    $id = '';
 
     $response = [
-       'error' => ''
+       'error' => '',
+       'status' => ''
     ];
     
 
@@ -28,10 +32,12 @@ function check ($nameEmail,$password) {
 
     if(str_contains($nameEmail, '@')) {
         $status = isLoginRightEmail($nameEmail,$password);
+        $id =  getIdFromEmail($nameEmail);
     }
 
     else {
         $status = isLoginRightName($nameEmail,$password);
+        $id =  getIdFromEmail($nameEmail);
     }
     
     if($status === '') {
@@ -47,7 +53,10 @@ function check ($nameEmail,$password) {
     }
 
     else {
+        $_SESSION['id'] = $id;
+        $response['status'] = $status;
         echo json_encode($response);
+        exit;
     }
 
 
