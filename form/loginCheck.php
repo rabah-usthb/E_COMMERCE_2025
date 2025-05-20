@@ -54,6 +54,7 @@ function check ($nameEmail,$password) {
 
     else {
         $_SESSION['id'] = $id;
+        lastLogUpdate();
         $response['status'] = $status;
         echo json_encode($response);
         exit;

@@ -44,13 +44,6 @@
             Change Password <i class="bx bx-key key-icon" id= "changeIcon"></i>
           </button>
         </div>
-
-        <div class="switch-form">
-          <span>
-            Token Expired ?
-            <a href="forgot.php">Send Another Email</a>
-          </span>
-        </div>
       </form>
     </div>
   </body>

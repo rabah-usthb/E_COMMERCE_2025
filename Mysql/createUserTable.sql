@@ -4,6 +4,8 @@ CREATE TABLE users (
  email VARCHAR(100) UNIQUE NOT NULL,
  user_status ENUM ('user','appending','admin') DEFAULT 'appending',
  userpassword VARCHAR(255),
+ added_at date default (CURRENT_DATE),
+ last_login date null,
  CONSTRAINT user_pk PRIMARY KEY (id)
 );
 

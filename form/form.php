@@ -3,6 +3,12 @@
 require_once 'db.php';
 
 
+function lastLogUpdate() {
+    global $pdo;   
+    $stmt = $pdo->prepare("update users set last_login= (CURRENT_DATE) where id = ?");
+    $stmt->execute([$_SESSION['id']]);
+}
+
 function changePassword($id,$password) {
     global $pdo;   
     $stmt = $pdo->prepare("update users set userpassword= ? where id = ?");
@@ -11,7 +17,7 @@ function changePassword($id,$password) {
 
 function verifyUser($id) {
     global $pdo;   
-    $stmt = $pdo->prepare("update token set user_status = ? where id = ?");
+    $stmt = $pdo->prepare("update users set user_status = ? where id = ?");
     $stmt->execute(['user',$id]);
 }
 
@@ -110,7 +116,7 @@ function isLoginRightEmail($email , $password){
     $stmt->execute([$email,hash('sha256', $password)]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if($status === false) {
+    if($row === false) {
         return "";
     }
     else {

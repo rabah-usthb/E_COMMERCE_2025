@@ -8,11 +8,18 @@ if (isset($_GET['token'])) {
 
     $token = $_GET['token'];
     $user_id =  getIDUser_Token($token);
-    $_SESSION['id'] = $_GET['id'];
     
 
     if($user_id === '') {
-        header('Location: resendEmail.php');
+        $message = 'Your Token Has Expired. You Will Proceed To Form To Send Email';
+        $dest = 'resendEmail.php';
+        if($_GET['type']!=='verify') {
+            $dest = 'forgot.php';
+        }
+         echo "<script>
+          alert(". json_encode($message) .");
+          window.location.href = ". json_encode($dest).";
+        </script>";
         exit;
     }
     else {
@@ -20,12 +27,17 @@ if (isset($_GET['token'])) {
         switch ($_GET['type']) {
             case 'verify':
                 verifyUser($user_id);
-                header('Location: verified.php');
+                $message = "You have been successfully verified You Will proceed to the login page to continue";
+                echo "<script>
+                alert(". json_encode($message) .");
+                window.location.href = 'login.php';
+              </script>";
                 exit;
                 break;
             
             case 'password' : 
-                header('Location: changePassword.php');
+                $id = urlencode($_GET['id']);
+                header("Location: changePassword.php?user_id={$id}");
                 exit;
                 break;
             

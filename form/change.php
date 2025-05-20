@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once 'db.php';
 require 'form.php';
 
-$id    = $_SESSION['id'];
+$id    = $_GET['user_id'];
 $password = $_POST['password'];
 
 
@@ -27,14 +27,11 @@ function change ($id,$password) {
         changePassword($id,$password);
     }
         catch(Exception $e) {
-            echo "failed: " .$e;
             $response['error'] = "An Error Happened While Trying To Change The Password, Please Try Later";
             echo json_encode($response);
             exit;
 
         }
-    
-  
   
     echo json_encode($response);
     exit;

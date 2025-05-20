@@ -35,9 +35,18 @@ function send($email,$type) {
     $id = getIdFromEmail($email);
 
     $response = [
-      'message' => '',
-      'icon'  => 'bx bxs-message-error error'
-  ];
+      'message' => ''
+    ];
+
+    if($type!=='verify') {
+      $status = getStatusFromEmail($email);
+      if($status==='verify') {
+        $response['message'] = "Can't Change Password When Email Not Verfied" ;
+        $error     = "error";
+        echo json_encode($response);
+        exit;
+      }
+    }
   
     $baseUrl = 'http://localhost/E-COMMERCE/form/verifyToken.php';
     $link    = $baseUrl . '?token=' . urlencode($token) .'&type=' .urlencode($type) . '&id='.urlencode($id);
@@ -94,12 +103,12 @@ try {
 
     $mail->send();
     $response['message'] = "Successfully sent {$type} email to {$email}. Please check your inbox.";
-    $response['icon']   = "bx bxs-message-check not-error";
-} catch (Exception $e) {
-    $response['message'] = "Failed to send {$type} email to {$email}. Error: " ;
-    $response['icon']     = "bx bxs-message-error error";
-}
-    if($response['message'] === ''){
+    $error  = "";
+    } catch (Exception $e) {
+        $response['message'] = "Failed to send {$type} email to {$email}. Error: " ;
+        $error     = "error";
+    }
+    if($error === ''){
     insertToken($token,$id,$type);
     }
     echo json_encode($response);

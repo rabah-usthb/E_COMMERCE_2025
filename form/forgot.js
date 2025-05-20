@@ -67,28 +67,13 @@ function sendPostToken(data) {
       .then(res => res.json())  
       .then(data => {      
         form.setSubmitting(forgotButton,forgotIcon,false);      
-       loadTokenView(data);
+        notifyToken(data);
      
       });
 }
 
-function loadTokenView(data) {
-
-    const f = document.createElement('form');
-    f.method = 'POST';
-    f.action = 'viewToken.php';
-  
-    for (const [name, value] of Object.entries(data)) {
-      const inp = document.createElement('input');
-      inp.type  = 'hidden';
-      inp.name  = name;
-      inp.value = value;
-      f.appendChild(inp);
-    }
-  
- 
-    document.body.appendChild(f);
-    f.submit();
+function notifyToken(data) {
+    alert(data.message);
 }
 
 function validateEmailForgot() {

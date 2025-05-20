@@ -24,7 +24,11 @@ function sendPost() {
     
     const password = passwordField.value;
     form.setSubmitting(changeButton,changeIcon,true);
-    fetch('change.php', {
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId    = urlParams.get('user_id');
+
+    fetch(`change.php?user_id=${encodeURIComponent(userId)}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
@@ -49,8 +53,9 @@ function toggleConfirmChange() {
     form.togglePassword(confirmField,ConfirmIcon);
 }
 
-function loadView() {
-    window.location.href = 'pass.php';
+function notifyToken() {
+    alert('You have successfully Changed Your Password, You Will Proceed To The Login Page To Continue');
+    window.location.href = 'login.php';
 }
 
 function updateError(data) {
@@ -60,7 +65,7 @@ function updateError(data) {
        visibleDbErrorChange();
     }
     else {
-     loadView();
+     notifyToken();
     }
 }
 

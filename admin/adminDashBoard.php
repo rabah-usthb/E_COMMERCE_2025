@@ -1,4 +1,7 @@
 <?php
+if(!isset($_SESSION['id'])) {
+	header('Location: ../form/login.php');
+}
 // adminDashBoard.php
 // Determine which section to display (default to dashboard)
 $page = $_GET['page'] ?? 'dashboard';
@@ -54,7 +57,7 @@ if (!in_array($page, $allowed, true)) {
             <li> <a href="?page=adminList" class="<?= $page==='adminList'?'active':'' ?>"> <i class='bx bx-shield-quarter icon'></i> Admins </a> </li>
 
 			<li class="divider" data-text="Account">Account</li>
-			<li><a href="#"> <i class='bx bxs-log-out-circle icon'></i> Log Out</a></li>
+			<li><a href="logOut.php"> <i class='bx bxs-log-out-circle icon'></i> Log Out</a></li>
             <li><a href="#"> <i class='bx bxs-trash-alt icon' ></i> Delete</a></li>
 		</ul>
 	
