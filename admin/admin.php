@@ -68,8 +68,14 @@ function printProducts($products) {
                 echo "<div class=\"product-name\">{$prd['product_name']}</div>";
         
                 echo "<div class=\"product-price\">";
-                  echo "<span class=\"original-price\">$".number_format($prd['price'],2)."</span>";
-                  echo "<span class=\"discounted-price\">$".number_format($priceAfterSold,2)."</span>";
+                if( $prd['sold'] == 0 ) {
+                    // no sale: single green price
+                    echo '<span class="no-sale-price">$'. number_format($prd['price'], 2). '</span>';
+                } else {
+                    // sale: show original crossed out + discounted
+                    echo '<span class="original-price">$'. number_format($prd['price'], 2). '</span> ';
+                    echo '<span class="discounted-price">$'. number_format($priceAfterSold, 2). '</span>';
+                }
                 echo "</div>";
         
                 echo "<div class=\"product-sold\">Sold: ".number_format($prd['sold'],2)."%</div>";

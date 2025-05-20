@@ -3,10 +3,10 @@
 require_once 'db.php';
 
 
-function lastLogUpdate() {
+function lastLogUpdate($id) {
     global $pdo;   
     $stmt = $pdo->prepare("update users set last_login= (CURRENT_DATE) where id = ?");
-    $stmt->execute([$_SESSION['id']]);
+    $stmt->execute([$id]);
 }
 
 function changePassword($id,$password) {

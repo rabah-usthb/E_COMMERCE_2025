@@ -37,7 +37,7 @@ function check ($nameEmail,$password) {
 
     else {
         $status = isLoginRightName($nameEmail,$password);
-        $id =  getIdFromEmail($nameEmail);
+        $id =  getIdFromName($nameEmail);
     }
     
     if($status === '') {
@@ -53,8 +53,8 @@ function check ($nameEmail,$password) {
     }
 
     else {
+        lastLogUpdate($id);
         $_SESSION['id'] = $id;
-        lastLogUpdate();
         $response['status'] = $status;
         echo json_encode($response);
         exit;

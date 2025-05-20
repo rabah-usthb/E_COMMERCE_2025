@@ -1,7 +1,12 @@
 <?php
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+/*
 if(!isset($_SESSION['id'])) {
 	header('Location: ../form/login.php');
-}
+}*/
 // adminDashBoard.php
 // Determine which section to display (default to dashboard)
 $page = $_GET['page'] ?? 'dashboard';

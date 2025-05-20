@@ -1,31 +1,25 @@
 <?php
-/*if(!isset($_SESSION['id'])) {
+
+require_once 'main.php';
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+/*
+if(!isset($_SESSION['id'])) {
 	header('Location: ../form/login.php');
 }*/
-// adminDashBoard.php
-// Determine which section to display (default to dashboard)
+$products = getAllProducts();
+$json = json_encode($products, JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_HEX_AMP | JSON_INVALID_UTF8_IGNORE | JSON_PARTIAL_OUTPUT_ON_ERROR );
+if ($json === false) {
+    die('JSON encode error: ' . json_last_error_msg());
+}
 $page = $_GET['page'] ?? 'main';
 $allowed = ['main', 'basket', 'history','favourite'];
 if (!in_array($page, $allowed, true)) {
     $page = 'main';
 }
 
-// Sample product data - in a real app, this would come from a database
-$products = [
-    [
-        'id' => 1,
-        'title' => 'Nike Air Max 270 React',
-        'category' => 'Shoes',
-        'price' => 99.99,
-        'discount' => 20,
-        'image' => 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-        'sold' => 125,
-        'description' => 'The Nike Air Max 270 React combines two of Nike\'s biggest innovations...',
-        'detailed_description' => '<p>The Nike Air Max 270 React combines the exaggerated tongue...</p>',
-        'tags' => ['Running','Lifestyle','Breathable','Comfortable']
-    ],
-    // … other products …
-];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +35,7 @@ $products = [
     <!-- HEADER -->
     <header>
         <div class="container header-container">
-            <a href="#" class="logo">
+            <a href="?page=main" class="logo"> 
                 <i class='bx bxs-shopping-bags'></i>
                 <span>E-Commerce 2025</span>
             </a>
@@ -56,7 +50,7 @@ $products = [
                     <i class='bx bx-cart'></i>
                     <span class="badge">3</span>
                 </a>
-                <a href="login.php" title="Account"><i class='bx bx-user'></i></a>
+                <a href="../admin/logOut.php"> <i class='bx bxs-log-out-circle icon'></i></a>
             </div>
             <div class="mobile-toggle">
                 <i class='bx bx-menu'></i>
@@ -93,92 +87,61 @@ $products = [
                     break;
 
                 default:
-                    // Default Dashboard content
+                printAllProducts($products);
+                }
             ?>
-        <section class="container featured-products">
-            <h2 class="section-title">Featured Products</h2>
-            <div class="products-grid">
-                <?php foreach ($products as $index => $product): ?>
-                <div class="product-card" data-product-id="<?= $product['id'] ?>">
-                    <div class="product-img">
-                        <img src="<?= $product['image'] ?>" alt="<?= htmlspecialchars($product['title']) ?>">
-                        <div class="product-actions">
-                            <div class="action-btn favorite-btn"><i class='bx bx-heart'></i></div>
-                            <!-- UPDATED: attach onclick directly for fullscreen -->
-                            <div class="action-btn zoom-btn"
-                                 data-product-id="<?= $product['id'] ?>"
-                                 onclick="openProductModal(<?= $product['id'] ?>)">
-                                <i class='bx bx-fullscreen'></i>
-                            </div>
-                        </div>
-                        <?php if ($product['discount'] > 0): ?>
-                        <div class="product-tag">-<?= $product['discount'] ?>%</div>
-                        <?php elseif ($index === 2): ?>
-                        <div class="product-tag">New</div>
-                        <?php elseif ($index === 4): ?>
-                        <div class="product-tag">Hot</div>
-                        <?php endif; ?>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-cat"><?= htmlspecialchars($product['category']) ?></div>
-                        <h3 class="product-title"><?= htmlspecialchars($product['title']) ?></h3>
-                        <div class="product-price">
-                            <div class="price">$<?= number_format($product['price'], 2) ?></div>
-                            <div class="add-cart" data-product-id="<?= $product['id'] ?>"><i class='bx bx-cart-add'></i></div>
-                        </div>
-                    </div>
-                </div>
-                <?php endforeach; ?>
-            </div>
-        </section>
-        <?php
-            }
-            ?>
+        
+        <
     </main>
 
     <!-- PRODUCT DETAIL MODAL -->
     <div id="productDetailModal" class="product-detail-modal">
         <div class="product-detail-container">
-            <div class="product-detail-close"><i class='bx bx-x'></i></div>
-            <div class="product-detail-content">
-                <div class="product-detail-gallery">
-                    <div class="product-detail-img">
-                        <img id="productDetailImage" src="" alt="Product">
-                    </div>
-                </div>
-                <div class="product-detail-info">
-                    <div class="product-detail-category" id="productDetailCategory"></div>
-                    <h1 class="product-detail-title" id="productDetailTitle"></h1>
-                    <div class="product-detail-price" id="productDetailPrice"></div>
-                    <div class="product-detail-sold" id="productDetailSold"></div>
-                    <div class="product-detail-description" id="productDetailDescription"></div>
-                    <div class="product-detail-tags" id="productDetailTags"></div>
-                    <div class="product-detail-actions">
-                        <button class="detail-btn add-to-cart-btn" id="productDetailAddToCart">
-                            <i class='bx bx-cart-add'></i> Add to Cart
-                        </button>
-                        <button class="detail-btn add-to-fav-btn" id="productDetailAddToFav">
-                            <i class='bx bx-heart'></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="product-detail-tabs">
-                <div class="product-tab active" data-tab="description">Detailed Description</div>
-                <div class="product-tab" data-tab="specifications">Specifications</div>
-                <div class="product-tab" data-tab="reviews">Reviews</div>
-            </div>
-            <div class="product-tab-content active" id="descriptionTab">
-                <!-- Detailed description content will be loaded here -->
-            </div>
-            <div class="product-tab-content" id="specificationsTab">
-                <p>Product specifications will be available soon.</p>
-            </div>
-            <div class="product-tab-content" id="reviewsTab">
-                <p>No reviews yet.</p>
+        <div class="product-detail-close"><i class='bx bx-x'></i></div>
+
+        <div class="product-detail-content">
+            <div class="product-detail-gallery">
+            <div class="product-detail-img">
+                <img id="productDetailImage" src="" alt="Product">
             </div>
         </div>
+        <div class="product-detail-info">
+        <div class="product-detail-category" id="productDetailCategory"></div>
+        <h1 class="product-detail-title" id="productDetailTitle"></h1>
+
+        <!-- price + sold info -->
+        <div class="product-detail-price">
+          <span  id="productDetailPrice"></span>
+          <span id="productDetailSold" style="margin-left:8px;"></span>
+          <span id="productDetailAfterSold" style="margin-left:8px;"></span>
+        </div>
+
+        <div class="product-detail-qtn" id="productDetailQtn"></div>
+        <div class="product-detail-description" id="productDetailDescription"></div>
+        <div class="product-detail-tags" id="productDetailTags"></div>
+        <div class="product-brief-description" id="productBriefDescription"></div>
+
+        <div class="product-detail-actions">
+          <button class="detail-btn add-to-cart-btn" id="productDetailAddToCart">
+            <i class='bx bx-cart-add'></i> Add to Cart
+          </button>
+          <button class="detail-btn add-to-fav-btn" id="productDetailAddToFav">
+            <i class='bx bx-heart'></i>
+          </button>
+        </div>
+      </div>
     </div>
+
+    <!-- title before detailed description -->
+    <h2 style="font-size:16px; margin:12px 10px 6px;">Detailed Description</h2>
+    <div class="product-tab-content active" id="descriptionTab">
+      <!-- Detailed description content will be loaded here -->
+    </div>
+
+  </div>
+</div>
+
+
 
     <!-- FOOTER -->
     <footer>
@@ -231,7 +194,74 @@ $products = [
 
     <!-- JAVASCRIPT -->
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
+      const modal    = document.getElementById('productDetailModal');          
+      const products = <?= $json ?>;
+
+     function initView() {
+
+        document.querySelectorAll('.zoom-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+             const name =this.getAttribute('data-product');
+             showProduct(name);
+          });
+        });
+
+        document.querySelectorAll('.product-detail-close').forEach(btn => {
+          btn.addEventListener('click', function() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+          });
+        });
+
+     }
+
+     function showProduct(name) {
+            const product = findProduct(name);
+            if (!product) return;
+
+            console.log(modal);
+            document.getElementById('productDetailImage').src       = product.image_data;
+            document.getElementById('productBriefDescription').textContent = product.brief_description;
+            document.getElementById('productDetailCategory').textContent = product.category;
+            document.getElementById('productDetailTitle').textContent    = product.title;
+            
+            const priceEl = document.getElementById('productDetailPrice');
+            document.getElementById('productDetailPrice').textContent    = '$' + product.price.toFixed(2);
+            document.getElementById('productDetailQtn').textContent     ='Available '+ product.quantity;
+            document.getElementById('descriptionTab').textContent = product.detailed_description;
+            document.getElementById('productDetailSold').style.visibility     = 'hidden';
+            document.getElementById('productDetailAfterSold').style.visibility   = 'hidden';
+
+            priceEl.style.textDecoration  = 'none';
+
+            if(product.sold > 0){
+                document.getElementById('productDetailSold').style.visibility = 'visible';
+                document.getElementById('productDetailAfterSold').style.visibility = 'visible';
+              priceEl.style.textDecoration  = 'line-through';
+             document.getElementById('productDetailSold').textContent  = '%' + product.sold.toFixed(2) + " off";
+             const soldValue = product.price * product.sold /100;
+             const priceAfterSold = product.price - soldValue;
+             document.getElementById('productDetailAfterSold').textContent    = '$' +  priceAfterSold.toFixed(2);
+            }
+            // Tags
+            const tagsContainer = modal.querySelector('#productDetailTags');
+            tagsContainer.innerHTML = '';
+            (product.tags || []).forEach(tag => {
+                const span = document.createElement('span');
+                span.className = 'product-tag-item';
+                span.textContent = tag;
+                tagsContainer.appendChild(span);
+            });
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+     }
+
+     function findProduct(name) {
+        return products.find(p => p.product_name=== name) || null;
+     }
+
+     document.addEventListener('DOMContentLoaded', function() {
         // Mobile menu toggle
         const mobileToggle = document.querySelector('.mobile-toggle');
         const navLinks = document.querySelector('.nav-links');
@@ -245,47 +275,14 @@ $products = [
         }
 
         // Grab modal elements
-        const modal    = document.getElementById('productDetailModal');
-        const closeBtn = modal.querySelector('.product-detail-close');
-        const products = <?= json_encode($products) ?>;
-
-        // Open modal function
-        window.openProductModal = function(id) {
-            const product = products.find(p => p.id == id);
-            if (!product) return;
-
-            modal.querySelector('#productDetailImage').src       = product.image;
-            modal.querySelector('#productDetailCategory').textContent = product.category;
-            modal.querySelector('#productDetailTitle').textContent    = product.title;
-            modal.querySelector('#productDetailPrice').textContent    = '$' + product.price.toFixed(2);
-            modal.querySelector('#productDetailSold').textContent     = product.sold + ' sold';
-            modal.querySelector('#productDetailDescription').textContent = product.description;
-
-            // Tags
-            const tagsContainer = modal.querySelector('#productDetailTags');
-            tagsContainer.innerHTML = '';
-            (product.tags || []).forEach(tag => {
-                const span = document.createElement('span');
-                span.className = 'product-tag-item';
-                span.textContent = tag;
-                tagsContainer.appendChild(span);
-            });
-
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        };
-
-        // Close modal
-        closeBtn.addEventListener('click', () => {
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-        modal.addEventListener('click', e => {
+    
+      /*  modal.addEventListener('click', e => {
             if (e.target === modal) {
                 modal.classList.remove('active');
                 document.body.style.overflow = '';
             }
         });
+        */
 
         // Add to Cart inside modal
         const detailAddCartBtn = document.getElementById('productDetailAddToCart');
@@ -308,6 +305,7 @@ $products = [
             });
         });
     });
+    initView();
     </script>
 </body>
 </html>

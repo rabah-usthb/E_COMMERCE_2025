@@ -67,7 +67,7 @@ function loadMainPage(status) {
         window.location.href = '../MainPage/mainPage.php';
         }
         else{
-         window.location.href = '../admin/adminDashBoard.php';
+        window.location.href = '../admin/adminDashBoard.php';
         }
 }
 

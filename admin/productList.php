@@ -216,6 +216,21 @@ if ($json === false) {
   gap: 8px;
 }
 
+.no-sale-price {
+  color: #28a745;          /* green */
+  font-weight: bold;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #888;
+  margin-right: 6px;
+}
+
+.discounted-price {
+  color: #dc3545;          /* red */
+  font-weight: bold;
+}
 .product-sold {
   font-size: 13px;
   color: var(--dark-grey);
@@ -559,9 +574,6 @@ if ($json === false) {
 
 <script>
 
-<?php
-$products_2 = getAllProducts();
-?>
   const products = <?= $json ?>;
   console.log('Products FINALS:', products);
 
