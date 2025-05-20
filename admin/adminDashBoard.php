@@ -15,7 +15,6 @@ if (!in_array($page, $allowed, true)) {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 	<link rel="stylesheet" href="admin.css">
-	<link rel="stylesheet" href="product.css">
 	<link rel="stylesheet" href="categories.css">
 	<title>Admin Dashboard</title>
 </head>

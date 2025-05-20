@@ -1,14 +1,15 @@
 create table products (
  id INT AUTO_INCREMENT PRIMARY KEY,
  product_name VARCHAR(50) NOT NULL,
- price decimal NOT NULL,
- sold decimal DEFAULT 0,
+ price float NOT NULL,
+ sold float DEFAULT 0,
  quantity int DEFAULT 0,
  max int DEFAULT 20,
  check (max >= quantity),
  brief_description VARCHAR(255) NOT NULL,
  detailed_description text NOT NULL,
- image_data LONGBLOB  NOT NULL
+ image_data LONGBLOB  NOT NULL,
+ image_name VARCHAR(100) NOT NULL 
 );
 
 create table categories (
