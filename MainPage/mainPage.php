@@ -5,10 +5,10 @@ require_once 'main.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-/*
+
 if(!isset($_SESSION['id'])) {
 	header('Location: ../form/login.php');
-}*/
+}
 $products = getAllProducts();
 $json = json_encode($products, JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_HEX_AMP | JSON_INVALID_UTF8_IGNORE | JSON_PARTIAL_OUTPUT_ON_ERROR );
 if ($json === false) {
@@ -194,10 +194,94 @@ if (!in_array($page, $allowed, true)) {
 
     <!-- JAVASCRIPT -->
     <script>
+
+
+function showNotification(message) {
+    // Check if notification container exists
+    let notifContainer = document.querySelector('.notification-container');
+    
+    if (!notifContainer) {
+      notifContainer = document.createElement('div');
+      notifContainer.className = 'notification-container';
+      notifContainer.style.position = 'fixed';
+      notifContainer.style.bottom = '20px';
+      notifContainer.style.right = '20px';
+      notifContainer.style.zIndex = '9999';
+      document.body.appendChild(notifContainer);
+    }
+    
+    // Create notification
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.style.background = 'var(--blue)';
+    notification.style.color = 'var(--light)';
+    notification.style.padding = '12px 20px';
+    notification.style.borderRadius = '5px';
+    notification.style.marginTop = '10px';
+    notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.1)';
+    notification.style.display = 'flex';
+    notification.style.alignItems = 'center';
+    notification.style.animation = 'fadeIn 0.3s ease forwards';
+    
+    notification.innerHTML = `
+      <i class='bx bx-check-circle' style="margin-right: 10px; font-size: 18px;"></i>
+      ${message}
+    `;
+    
+    notifContainer.appendChild(notification);
+    
+    // Remove notification after 3 seconds
+    setTimeout(() => {
+      notification.style.opacity = '0';
+      notification.style.transform = 'translateX(100%)';
+      setTimeout(() => {
+        notification.remove();
+      }, 80);
+    }, 500);
+}
+
+
       const modal    = document.getElementById('productDetailModal');          
       const products = <?= $json ?>;
 
+
+      function  updateAfterAddCartRequest(data) {
+    if(data.error!=='') {
+      alert(data.error);
+      return;
+    }
+    else {
+      showNotification('Product Added To Basket Successfully');
+    }
+  }
+
+
+
+  function sendAddCartRequest(name) {
+      
+      const formData = new FormData();
+      formData.append('action',   'addCart');
+      formData.append('name', name);
+
+
+      fetch('checkMain.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        updateAfterAddCartRequest(data);
+      });
+}
+
      function initView() {
+
+        document.querySelectorAll('.add-cart').forEach(btn => {
+          btn.addEventListener('click', function() {
+             const name =this.getAttribute('data-product');
+             sendAddCartRequest(name);
+          });
+        });
 
         document.querySelectorAll('.zoom-btn').forEach(btn => {
           btn.addEventListener('click', function() {
