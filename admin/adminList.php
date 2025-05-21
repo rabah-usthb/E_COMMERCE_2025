@@ -1,76 +1,9 @@
-<div id="admins-section" >
-    <h1 class="title">Admin Management</h1>
-    <ul class="breadcrumbs">
-        <li><a href="#">Home</a></li>
-        <li class="divider">/</li>
-        <li><a href="#" class="active">Admin Management</a></li>
-    </ul>
-    
-    <div class="data">
-        <div class="content-data">
-            <div class="head">
-                <h3>Admin Users</h3>
-            </div>
-            
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Added Date</th>
-                        <th>Last Login</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>admin_master</td>
-                        <td>admin@ecommerce2025.com</td>
-                        <td>May 10, 2025</td>
-                        <td>May 14, 2025</td>
-                        <td><span class="status active">Active</span></td>
-                    </tr>
-                    <tr>
-                        <td>marketing_admin</td>
-                        <td>marketing@ecommerce2025.com</td>
-                        <td>May 5, 2025</td>
-                        <td>May 13, 2025</td>
-                        <td><span class="status active">Active</span></td>
-                    </tr>
-                    <tr>
-                        <td>product_manager</td>
-                        <td>products@ecommerce2025.com</td>
-                        <td>Apr 28, 2025</td>
-                        <td>May 12, 2025</td>
-                        <td><span class="status active">Active</span></td>
-                    </tr>
-                    <tr>
-                        <td>support_team1</td>
-                        <td>support1@ecommerce2025.com</td>
-                        <td>May 2, 2025</td>
-                        <td>May 14, 2025</td>
-                        <td><span class="status active">Active</span></td>
-                    </tr>
-                    <tr>
-                        <td>order_processor</td>
-                        <td>orders@ecommerce2025.com</td>
-                        <td>Apr 15, 2025</td>
-                        <td>May 10, 2025</td>
-                        <td><span class="status pending">Pending</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-<!-- This is the dashboard section (your existing content) -->
-<div id="dashboard-section">
-    <!-- Your existing dashboard content is here -->
-</div>
+<?php 
+require_once 'admin.php';
+printAllAdmins();
+?>
 
 <style>
-/* Simple styles for the admin table */
 .admin-table {
     width: 100%;
     border-collapse: collapse;

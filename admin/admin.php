@@ -3,6 +3,69 @@
 require_once '../form/db.php';
 
 
+function getAllAdmins() {
+    global $pdo;
+
+    $stmt = $pdo->prepare("SELECT username,email,added_at,last_login FROM users where user_status = ?");
+    $stmt->execute(['admin']);
+    $all = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($all as &$admin) {
+        if(is_null($admin['last_login'])) {
+            $admin['last_login'] = 'N/A';
+        }
+    }
+
+    unset($admin);
+
+    return $all;
+}
+
+function printAllAdmins() {
+    $all = getAllAdmins();
+            echo"<div id=\"admins-section\">";
+            echo"<h1 class=\"title\">Admin Management</h1>";
+            echo"<ul class=\"breadcrumbs\">";
+                echo"<li><a href=\"#\">Home</a></li>";
+                echo"<li class=\"divider\">/</li>";
+                echo"<li><a href=\"#\" class=\"active\">Admin Management</a></li>";
+            echo"</ul>";
+            
+            echo"<div class=\"data\">";
+                echo"<div class=\"content-data\">";
+                    echo"<div class=\"head\">";
+                        echo"<h3>Admin Users</h3>";
+                    echo"</div>";
+                    
+                    echo"<table class=\"admin-table\">";
+                        echo"<thead>";
+                            echo"<tr>";
+                                echo"<th>Username</th>";
+                                echo"<th>Email</th>";
+                                echo"<th>Added Date</th>";
+                                echo"<th>Last Login</th>";
+                            echo"</tr>";
+                        echo"</thead>";
+                        echo"<tbody>";
+
+                        foreach ($all as $admin) {
+                            echo"<tr>";
+                                echo"<td>$admin[username]</td>";
+                                echo"<td>$admin[email]</td>";
+                                echo"<td>$admin[added_at]</td>";
+                                echo"<td>$admin[last_login]</td>";
+                            echo"</tr>";
+
+                        }
+                        echo"</tbody>";
+                    echo"</table>";
+                echo"</div>";
+            echo"</div>";
+        echo"</div>";
+
+}
+
+
 function getAllProducts() {
     global $pdo;
 
